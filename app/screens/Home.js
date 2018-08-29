@@ -8,6 +8,7 @@ import { InputWithButton } from '../components/TextInput';
 import { ClearButton } from '../components/Buttons';
 import { LastConverted } from '../components/Text';
 import { Header } from '../components/Header';
+import { Map } from '../components/Map';
 
 
 const TEMP_BASE_CURRENCY = 'USD';
@@ -74,6 +75,7 @@ class Home extends Component {
             text="Birimleri Değiştir"
             onPress={this.handleSwapCurrency}
           />
+          <Map />
         </KeyboardAvoidingView>
       </Container>
     );
