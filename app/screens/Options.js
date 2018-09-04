@@ -22,10 +22,17 @@ class Options extends Component {
     this.props.navigation.navigate('Themes');
   }
 
-  handlePressSite = () => {
-    Linking.openURL('https://baltus.balikesir.bel.tr/').catch(() =>  this.props.alertWithType('error', 'SOrry!', 'Baltus.bel.tr şuan açılamıyor.'), 
-    );
+  handlePressSiteBaltus = () => {
+    Linking.openURL('https://baltus.balikesir.bel.tr/').catch(() => this.props.alertWithType('error', 'SOrry!', 'Baltus.bel.tr şuan açılamıyor.'));
   };
+
+  handlePressSiteBalBel = () => {
+    Linking.openURL('http://www.balikesir.bel.tr/').catch(() => this.props.alertWithType('error', 'SOrry!', 'Balıkesir.bel.tr şuan açılamıyor.'));
+  };
+
+  handlePressContact = () => {
+    this.props.navigation.navigate('Contact');
+  }
 
   render() {
     return (
@@ -41,8 +48,20 @@ class Options extends Component {
         <Separator />
         <ListItem
           text="Baltus.bel.tr"
-          onPress={this.handlePressSite}
+          onPress={this.handlePressSiteBaltus}
           customIcon={<Ionicons name={`${ICON_PREFIX}-link`} size={ICON_SIZE} color={ICON_COLOR} />}
+        />
+        <ListItem
+          text="Balikesir.bel.tr"
+          onPress={this.handlePressSiteBalBel}
+          customIcon={<Ionicons name={`${ICON_PREFIX}-link`} size={ICON_SIZE} color={ICON_COLOR} />}
+        />
+        <Separator />
+        <Separator />
+        <ListItem
+          text="İletişim"
+          onPress={this.handlePressContact}
+          customIcon={<Ionicons name={`${ICON_PREFIX}-contact`} size={ICON_SIZE} color={ICON_COLOR} />}
         />
         <Separator />
       </ScrollView>

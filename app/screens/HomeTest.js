@@ -48,10 +48,9 @@ class Home extends Component {
   render() {
     return (
       <Container>
-
+        <StatusBar translucent={false} barStyle="light-content" />
+        <Header onPress={this.handleOptionPress} />
         <KeyboardAvoidingView behavior="padding">
-          <StatusBar translucent={false} barStyle="light-content" />
-          <Header onPress={this.handleOptionPress} />
           <Logo />
           <InputWithButton
             buttonText={TEMP_BASE_CURRENCY}
