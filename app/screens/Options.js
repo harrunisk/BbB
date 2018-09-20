@@ -19,15 +19,16 @@ class Options extends Component {
   };
 
   handlePressThemes = () => {
+    console.log("deneme",fetch('https://baltus.balikesir.bel.tr/Home/OtobusKoordinatGetir.json'));
     this.props.navigation.navigate('Themes');
   }
 
   handlePressSiteBaltus = () => {
-    Linking.openURL('https://baltus.balikesir.bel.tr/').catch(() => this.props.alertWithType('error', 'SOrry!', 'Baltus.bel.tr şuan açılamıyor.'));
+    Linking.openURL('https://baltus.balikesir.bel.tr/').catch(() => this.props.alertWithType('error', 'Sorry!', 'Baltus.bel.tr şuan açılamıyor.'));
   };
 
   handlePressSiteBalBel = () => {
-    Linking.openURL('http://www.balikesir.bel.tr/').catch(() => this.props.alertWithType('error', 'SOrry!', 'Balıkesir.bel.tr şuan açılamıyor.'));
+    Linking.openURL('http://www.balikesir.bel.tr/').catch(() => this.props.alertWithType('error', 'Sorry!', 'Balıkesir.bel.tr şuan açılamıyor.'));
   };
 
   handlePressContact = () => {
@@ -51,12 +52,13 @@ class Options extends Component {
           onPress={this.handlePressSiteBaltus}
           customIcon={<Ionicons name={`${ICON_PREFIX}-link`} size={ICON_SIZE} color={ICON_COLOR} />}
         />
+        <Separator />
+
         <ListItem
           text="Balikesir.bel.tr"
           onPress={this.handlePressSiteBalBel}
           customIcon={<Ionicons name={`${ICON_PREFIX}-link`} size={ICON_SIZE} color={ICON_COLOR} />}
         />
-        <Separator />
         <Separator />
         <ListItem
           text="İletişim"

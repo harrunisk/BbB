@@ -10,7 +10,6 @@ import { LastConverted } from '../components/Text';
 import { Header } from '../components/Header';
 import { Map } from '../components/Map';
 
-
 const TEMP_BASE_CURRENCY = 'USD';
 const TEMP_QUOTE_CURRENCY = 'TL';
 const TEMP_BASE_PRICE = '100';
@@ -48,7 +47,6 @@ class Home extends Component {
   render() {
     return (
       <Container>
-
         <KeyboardAvoidingView behavior="padding">
           <StatusBar translucent={false} barStyle="light-content" />
           <Header onPress={this.handleOptionPress} />
