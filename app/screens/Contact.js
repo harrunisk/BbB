@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { KeyboardAvoidingView } from 'react-native';
 import { ContactForm } from '../components/ContactForm';
-import { Container } from '../components/Container';
 
 
 //  react native de global değişkenlere direkt ulaşamıyoruz
+const ButtonTitle = 'Bize Ulaşın';
 
 class Contact extends Component {
   static propTypes = {
@@ -13,13 +13,21 @@ class Contact extends Component {
   }
 
     handleContactPress = () => {
-      this.props.navigation.goBack(null);
+      this.props.navigation.goBack(null); 
+    }
+
+    handlePressContactUs = () => {
+      const value = this.form.getValue(); // use that ref to get the form value
+      console.log('value: ', value);
     }
 
     render() {
       return (
         <KeyboardAvoidingView>
-          <ContactForm />
+          <ContactForm
+            title={ButtonTitle}
+            onPress={this.handlePressContactUs}
+          />
 
         </KeyboardAvoidingView>
 

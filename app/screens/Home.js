@@ -9,6 +9,7 @@ import { ClearButton } from '../components/Buttons';
 import { LastConverted } from '../components/Text';
 import { Header } from '../components/Header';
 import { Map } from '../components/Map';
+import { swapCurrency, changeCurrencyAmount } from '../actions/currencies';
 
 const TEMP_BASE_CURRENCY = 'USD';
 const TEMP_QUOTE_CURRENCY = 'TL';
@@ -32,12 +33,14 @@ class Home extends Component {
     this.props.navigation.navigate('CurrencyList', { title: 'Sonuç Birim' });
   }
 
-  handleTextChange = (text) => {
-    console.log('change text', text);
+  handleTextChange = (amount) => {
+    // to-do this.props.dispatch kullanarak yapmam gerekiyor
+    console.log(changeCurrencyAmount(amount));
   }
 
   handleSwapCurrency = () => {
-    console.log('press swap currency');
+    // to-do this.props.dispatch kullanarak yapmam gerekiyor
+    console.log(swapCurrency());
   }
 
   handleOptionPress = () => {
@@ -56,7 +59,7 @@ class Home extends Component {
             onPress={this.handlePressBaseCurrency}
             defaultValue={TEMP_BASE_PRICE}
             keyboardType="numeric"
-            onChangeText={this.handTextChange}
+            onChangeText={this.handleTextChange}
           />
           <InputWithButton
             buttonText={TEMP_QUOTE_CURRENCY}
