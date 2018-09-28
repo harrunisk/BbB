@@ -5,6 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 //  alert provider ile bir hata olursa mesela url kısmında hata oldu bunları görebiliriz.
 import Navigator from './config/routes';
 import { AlertProvider } from './components/Alert';
+
 //  we need to build EStyleSheet before
 EStyleSheet.build({
   $primaryBlue: '#4F6D7A',
