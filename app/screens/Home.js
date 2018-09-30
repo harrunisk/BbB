@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 // companent is used to add typical REACT component
 import React, { Component } from 'react';
 import { StatusBar, KeyboardAvoidingView } from 'react-native';
+import { connect } from 'react-redux';
 import { Container } from '../components/Container';
 import { Logo } from '../components/Logo';
 import { InputWithButton } from '../components/TextInput';
@@ -11,67 +12,92 @@ import { Header } from '../components/Header';
 import { Map } from '../components/Map';
 import { swapCurrency, changeCurrencyAmount } from '../actions/currencies';
 
-const TEMP_BASE_CURRENCY = 'USD';
-const TEMP_QUOTE_CURRENCY = 'TL';
-const TEMP_BASE_PRICE = '100';
-const TEMP_QUOTE_PRICE = '471.37';
-const TEMP_CONVERSION_RATE = '4.7137';
-const TEMP_CONVERSION_DATE = new Date();
 
 class Home extends Component {
     static propTypes = {
       navigation: PropTypes.object,
+      dispatch: PropTypes.func,
+      baseCurrency: PropTypes.string,
+      quoteCurrency: PropTypes.string,
+      amount: PropTypes.number,
+      conversionRate: PropTypes.number,
+      isFetching: PropTypes.bool,
+      lastConvertedDate: PropTypes.object,
+      primaryColor: PropTypes.string,
     };
 
   handlePressBaseCurrency = () => {
+    const { navigation } = this.props;
     //  Buraya tıklandığında CurrencyList'e yönlendirme yapacak.
     //  aşagıdaki kod
-    this.props.navigation.navigate('CurrencyList', { title: 'Para Birimi' });
+    navigation.navigate('CurrencyList', { title: 'Para Birimi', type: 'base' });
   }
 
   handlePressQuoteCurrency = () => {
-    this.props.navigation.navigate('CurrencyList', { title: 'Sonuç Birim' });
+    const { navigation } = this.props;
+    navigation.navigate('CurrencyList', { title: 'Sonuç Birim', type: 'quote' });
   }
 
-  handleTextChange = (amount) => {
+  handleTextChange = (text) => {
+    const { dispatch } = this.props;
     // to-do this.props.dispatch kullanarak yapmam gerekiyor
-    console.log(changeCurrencyAmount(amount));
+    dispatch(changeCurrencyAmount(text));
   }
 
   handleSwapCurrency = () => {
+    const { dispatch } = this.props;
+
     // to-do this.props.dispatch kullanarak yapmam gerekiyor
-    console.log(swapCurrency());
+    dispatch(swapCurrency());
   }
 
   handleOptionPress = () => {
-    this.props.navigation.navigate('Options');
+    const { navigation } = this.props;
+    navigation.navigate('Options');
   }
 
   render() {
+    const {
+      isFetching,
+      amount,
+      conversionRate,
+      baseCurrency,
+      quoteCurrency,
+      lastConvertedDate,
+      primaryColor,
+    } = this.props;
+    let quotePrice = (amount * conversionRate).toFixed(2);
+
+    if (isFetching) {
+      quotePrice = '...';
+    }
+
     return (
-      <Container>
+      <Container backgroundColor={primaryColor}>
         <KeyboardAvoidingView behavior="padding">
           <StatusBar translucent={false} barStyle="light-content" />
           <Header onPress={this.handleOptionPress} />
-          <Logo />
+          <Logo tintColor={primaryColor} />
           <InputWithButton
-            buttonText={TEMP_BASE_CURRENCY}
+            buttonText={baseCurrency}
             onPress={this.handlePressBaseCurrency}
-            defaultValue={TEMP_BASE_PRICE}
+            defaultValue={amount.toString()}
             keyboardType="numeric"
             onChangeText={this.handleTextChange}
+            textColor={primaryColor}
           />
           <InputWithButton
-            buttonText={TEMP_QUOTE_CURRENCY}
+            buttonText={quoteCurrency}
             onPress={this.handlePressQuoteCurrency}
             editable={false}
-            value={TEMP_QUOTE_PRICE}
+            value={quotePrice}
+            textColor={primaryColor}
           />
           <LastConverted
-            base={TEMP_BASE_CURRENCY}
-            quote={TEMP_QUOTE_CURRENCY}
-            date={TEMP_CONVERSION_DATE}
-            conversionRate={TEMP_CONVERSION_RATE}
+            base={baseCurrency}
+            quote={quoteCurrency}
+            date={lastConvertedDate}
+            conversionRate={conversionRate.toString()}
           />
           <ClearButton
             text="Birimleri Değiştir"
@@ -83,4 +109,22 @@ class Home extends Component {
     );
   }
 }
-export default Home;
+// bu kısımda tuşa bastığında birimleri birbiriyle değiştirecek
+// olan yeri yazıyoruz en azından görsel olarak
+const mapStateToProps = (state) => {
+  const { baseCurrency, quoteCurrency } = state.currencies;
+  // ilkine ulaş yoksa boş obje döndür
+  const conversionSelector = state.currencies.conversions[baseCurrency] || {};
+  const rates = conversionSelector.rates || {};
+
+  return {
+    baseCurrency,
+    quoteCurrency,
+    amount: state.currencies.amount,
+    conversionRate: rates[quoteCurrency] || 0,
+    isFetching: conversionSelector.isFetching,
+    lastConvertedDate: conversionSelector.date ? new Date(conversionSelector.date) : new Date(),
+    primaryColor: state.theme.primaryColor,
+  };
+};
+export default connect(mapStateToProps)(Home);

@@ -8,14 +8,22 @@ import styles from './styles';
 
 //  Container komponentinin içine koyduğum
 //  herşey divlerde dahil olmak üzere bizim childrenımız oluyor
-const Container = ({ children }) => (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    <View style={styles.container}>
-      {children}
-    </View>
-  </TouchableWithoutFeedback>
-);
+const Container = ({ children, backgroundColor }) => {
+  const containerStyles = [styles.container];
+  if (backgroundColor) {
+    containerStyles.push({ backgroundColor });
+  }
+
+  return (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={containerStyles}>
+        {children}
+      </View>
+    </TouchableWithoutFeedback>
+  );
+};
 Container.propTypes = {
   children: PropTypes.any,
+  backgroundColor: PropTypes.string,
 };
 export default Container;

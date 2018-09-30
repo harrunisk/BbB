@@ -2,8 +2,10 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { ScrollView, StatusBar } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { connect } from 'react-redux';
 
 import { ListItem, Separator } from '../components/List';
+import { changePrimaryColor } from '../actions/theme';
 //  react native de global değişkenlere direkt ulaşamıyoruz
 const styles = EStyleSheet.create({
   $blue: '$primaryBlue',
@@ -15,11 +17,17 @@ const styles = EStyleSheet.create({
 class Themes extends Component {
   static propTypes = {
     navigation: PropTypes.object,
+    dispatch: PropTypes.func,
   }
 
     handleThemePress = (color) => {
+      const {
+        dispatch,
+        navigation,
+      } = this.props;
       console.log('press themes', color);
-      this.props.navigation.goBack(null);
+      dispatch(changePrimaryColor(color));
+      navigation.goBack(null);
     }
 
     render() {
@@ -40,4 +48,4 @@ class Themes extends Component {
 }
 
 
-export default Themes;
+export default connect()(Themes);
