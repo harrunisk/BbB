@@ -10,7 +10,7 @@ import { ClearButton } from '../components/Buttons';
 import { LastConverted } from '../components/Text';
 import { Header } from '../components/Header';
 import { Map } from '../components/Map';
-import { swapCurrency, changeCurrencyAmount } from '../actions/currencies';
+import { swapCurrency, changeCurrencyAmount, getInitialConversion } from '../actions/currencies';
 
 
 class Home extends Component {
@@ -25,6 +25,11 @@ class Home extends Component {
       lastConvertedDate: PropTypes.object,
       primaryColor: PropTypes.string,
     };
+
+    componentWillMount() {
+      const { dispatch } = this.props;
+      dispatch(getInitialConversion());
+    }
 
   handlePressBaseCurrency = () => {
     const { navigation } = this.props;
